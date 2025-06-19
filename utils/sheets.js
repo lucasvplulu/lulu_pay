@@ -1,9 +1,13 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const creds = require('../keen-ascent-336412-629a88521dec.json');
 
 async function addToSheet(entry) {
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
-    await doc.useServiceAccountAuth(creds);
+
+    await doc.useServiceAccountAuth({
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    });
+
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle['Registros'];
 
