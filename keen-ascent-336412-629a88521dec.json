@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "keen-ascent-336412",
+  "private_key_id": "629a88521dec29c5d88d1d65d8f87be902f69c4a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCw+jSmO1SVr+uO\nM/gz6jkYWzhuLGm7asiuWbllM4ffdeNjbtPDaMao9UBTDlsChh0YgTarTTZaiT+G\naoz2RlJ0Fl0KNGe+HuN3h7nDCUblEyo2N0dqrQHVyWQ31AQESdikdi6mXR7nYWu4\ntyIQezwLYCY/AQ75cQUWS8kDVPygzdC1Z674uHDNOxBSbXungwIX5aIMaHI18A85\nYE767nCHLCkELJY/tgRZUttO4Nt8aC4HcDWxtrzu1TQSE9qnN8ROBPXsgZrnSlXb\n0hxBZKUajpJXEQMLn1/X6eXbrNJiomUtPuwErxo1kSKYlK6K9n62GthBbpzhIPlb\nBHL5D+wVAgMBAAECggEAHR/sArBQZProw8P7NIX3A/JdKMpv0wtJf+HdsBEpKuXy\neCZgvK+VQ/Bqd9Csuw9ZofL/zXSdPYyJMwR9crkTcC3O/XMu4HuiWQUx1a5E58V9\n5KK3ws86dlWYg9SFHbSObdBSMIgyIgdnDCS9OyOgt8mIucUhkvzdxrPNnpoBoi++\njsbykDWzB5tLRC4pOJ4wuYmwOu1j8DzX/WiksbUW7h1b7/OT91Yr40w5TnbAiEyi\noQmA9wKr2QetUet7vuRHFj5XDqHWePB+5DfvJke5f1X7qJNacvcu7uJuVYt2dVur\nmP21ydRQSXuwpHV2cxEaVlR8R3TIr2iO1jMYr+Zn0QKBgQDkPNkmLmx9VODfH1d1\nofHxoaxVxaAUYLNQ34m1XG6hg+RRP3Nh4lM0pFhN331h3sr+Nai00kC7lvdvpN8g\n81Y9aZrsWTCUh/cPdGJbhztBrrgVQdi/DV6/hVR1S3r6wZwrs3n5CHYuWeru7IrA\n6iOSDyMX7fML6BVQI5Dgb53skQKBgQDGgSYtJC3cHk6+Ff5Ck+0XzX9m9AGLSl/Q\ncBNr45yyu3jVPTas9tAg8EllPU3Q4Vvd31FPMV7/FuZhkbwNjzVGPxT9W6JRkVgP\n1ecT1ATsT9v+2lF9llUi/QMnnGHQG+EhxvnC5p68EfVAhALhewXdSmUqkH6wr4dt\nXCAW15UZRQKBgDqvVppVp3mWYHeeZGuPp1kc2+X1+ZIjxxeNUqg6SwvmkMc/TFin\nzAMmGrpzM5b9pS4199n+kbxqNdcUCnc7ejoyNC5/RFl8mE71+vBT1i2uUhDNLID7\nXBhcnPnH3agqLhCihkM9JL4ISrsCQS8XROwiTkCx4yN1mj1P18mNiYqxAoGAKWVX\nc8R+t8+uNh/aBUJaCEO3lN2/0K9y6cHlmvM9g1xrJ3T7iPhzkNrrQ2yUZMIKaWuf\nxjcSi3nYE3LT17QMtRiEpQ1N/VqlFbBS3ySw3iMNSsl2gw0ttf0zgjgvgbm+qk+X\nWFjFs4y/K3QcMa95GpvgGw9FDE2enWS/4GOW2U0CgYBEdpjrR82TaVB9A0lhXIJb\ns6u2oktX2DY8cBhTeH8FUqnzpkz13sHLuifWg8UvtwNzH7NhdOlWszj1VdD1+/fA\n0iR/AL3c7Nb5jhulacUtRJE9P9qrhfidtpPFepWfExKNraZEA2dyOzvXgh4Dib0z\nq9rQsuFdU7N++w/S4aUNVg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "lulu-pay@keen-ascent-336412.iam.gserviceaccount.com",
+  "client_id": "116519082502015430419",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lulu-pay%40keen-ascent-336412.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
