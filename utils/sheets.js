@@ -1,4 +1,5 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+require('dotenv').config();
 
 async function addToSheet(entry) {
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
@@ -16,7 +17,7 @@ async function addToSheet(entry) {
         Tipo: entry.tipo,
         Categoria: entry.categoria,
         Descricao: entry.descricao,
-        'Valor (R$)': entry.valor
+        'Valor (R$)': entry.valor,
     });
 }
 
