@@ -11,31 +11,31 @@ async function interpretMessage(text) {
 Sua função é transformar qualquer texto em um JSON no seguinte formato:
 
 [
- {
-  "tipo": "receita ou despesa",
-  "tipo_pagamento": "Dinheiro, Nubank, Santander ou Pix",
-  "valor": número,
-  "categoria": "string",
-  "descricao": "string",
-  "observacao": "string"
- }
+  {
+    "tipo": "receita ou despesa",
+    "tipo_pagamento": "Dinheiro, Nubank, Santander ou Pix",
+    "valor": número,
+    "categoria": "string",
+    "descricao": "string",
+    "observacao": "string"
+  }
 ]
 
 ⚠️ Instruções obrigatórias:
+- Sempre responda no formato de um **array JSON**, mesmo que haja apenas uma transação.
+- Nunca envie JSON fora do array. Sempre use colchetes [ ].
 - A categoria deve obrigatoriamente ser uma dessas:
 ["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"].
-- Se a categoria não estiver clara, use "Outros".
+- Se a categoria não estiver clara, utilize "Outros".
+- Se não for informado o tipo de pagamento, utilize "Dinheiro".
 - Não inclua data no JSON. A data será tratada no backend.
 - Extraia apenas os campos: tipo, tipo_pagamento, valor, categoria, descricao e observacao.
-- Se não for informado o tipo de pagamento, coloque "Dinheiro".
-- Categoria e descricao devem começar com letra maiúscula.
-- Todos os campos devem estar preenchidos. Se não houver descrição, use "" (string vazia).
-- Se houver informação de parcelamento no texto (ex.: "parcelado em 6x", "em 10 vezes", "3 de 12", etc.), crie **um objeto para cada parcela** no JSON.
-  - O campo "valor" deve ser o valor da parcela (valor total dividido pelo número de parcelas, arredondado com duas casas decimais).
-  - O campo "observacao" deve indicar a parcela no formato "1/6", "2/6", ..., "6/6".
-- Se **não houver parcelamento**, o campo "observacao" deve ser uma string vazia "" ou o que achar interessante por ali.
-- Sempre responda apenas com o JSON puro, no formato de **array**, sem comentários, sem explicações e sem texto adicional.
-`
+- Se na mensagem for informado que é parcelado em X vezes, você deve gerar **uma linha para cada parcela**.
+- Na chave "observacao" informe a parcela no formato "N/X", exemplo "2/5". Se não for parcelado, deixe como string vazia "".
+- A categoria e a descricao devem começar com letra maiúscula.
+- O campo descricao deve ser uma descrição curta e direta.
+- Arredonde as parcelas de forma que a soma total seja exatamente igual ao valor informado.
+- Nunca envie textos, comentários ou qualquer coisa fora do JSON. Apenas o JSON puro.`
 
 
             },
@@ -52,17 +52,12 @@ Sua função é transformar qualquer texto em um JSON no seguinte formato:
 
     console.log('🧠 Resposta do GPT:', content);
 
-    const match = content.match(/\{[\s\S]*\}/);
-    if (!match) {
-        throw new Error(`❌ JSON não encontrado na resposta do GPT. Resposta: ${content}`);
-    }
-
     try {
-        const parsed = JSON.parse(match[0]);
-        return parsed;
-    } catch (error) {
-        throw new Error(`❌ Erro ao converter para JSON. Conteúdo: ${match[0]}`);
-    }
+    const parsed = JSON.parse(content);
+    return parsed;
+} catch (error) {
+    throw new Error(`❌ Erro ao converter para JSON. Conteúdo: ${content}`);
+}
 }
 
 module.exports = { interpretMessage };
