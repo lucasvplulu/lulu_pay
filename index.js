@@ -23,14 +23,14 @@ bot.on("message", async (msg) => {
             const fileLink = await bot.getFileLink(msg.voice.file_id);
             const response = await axios.get(fileLink, { responseType: "arraybuffer" });
 
-            const filePath = `./audio-${ chatId }.ogg`;
+            const filePath = `./audio-${chatId}.ogg`;
             fs.writeFileSync(filePath, response.data);
 
             userInput = await transcribeAudio(filePath);
 
             fs.unlinkSync(filePath);
 
-            bot.sendMessage(chatId, `📝 Transcrição: ${ userInput }`);
+            bot.sendMessage(chatId, `📝 Transcrição: ${userInput}`);
         } else if (msg.text) {
             userInput = msg.text;
         } else {
@@ -39,18 +39,23 @@ bot.on("message", async (msg) => {
         }
 
         const parsedData = await interpretMessage(userInput);
-        parsedData.data = extrairData(userInput);
+
+        const dataInformada = extrairData(userInput);
+        let mensagemDeConfirmacao = "✅ Anotado:\n";
 
         for (const item of parsedData) {
-            item.data = extrairData(userInput);
+            item.data = dataInformada;
             item.competencia = calcularCompetencia(item.data, item.tipo_pagamento);
+
             await addToSheet(item);
+
+            mensagemDeConfirmacao += `• ${item.tipo} de R$${item.valor} em ${item.categoria} (${item.descricao}) na data ${item.data}\n`;
         }
 
-        bot.sendMessage(chatId, `✅ Anotado: ${ parsedData.tipo } de R$${ parsedData.valor } em ${ parsedData.categoria } (${ parsedData.descricao }) na data ${ parsedData.data }`);
+        bot.sendMessage(chatId, mensagemDeConfirmacao);
 
     } catch (error) {
         console.error(error);
-        bot.sendMessage(chatId, `❌ Erro: ${ error.message }`);
+        bot.sendMessage(chatId, `❌ Erro: ${error.message}`);
     }
 });
