@@ -10,24 +10,32 @@ async function interpretMessage(text) {
 
 Sua função é transformar qualquer texto em um JSON no seguinte formato:
 
-{
- "tipo": "receita ou despesa",
- "tipo_pagamento": "Dinheiro, Nubank, Santander ou Pix",
- "valor": número,
- "categoria": "string",
- "descricao": "string"
-}
+[
+ {
+  "tipo": "receita ou despesa",
+  "tipo_pagamento": "Dinheiro, Nubank, Santander ou Pix",
+  "valor": número,
+  "categoria": "string",
+  "descricao": "string",
+  "observacao": "string"
+ }
+]
 
 ⚠️ Instruções obrigatórias:
 - A categoria deve obrigatoriamente ser uma dessas:
 ["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"].
 - Se a categoria não estiver clara, use "Outros".
 - Não inclua data no JSON. A data será tratada no backend.
-- Extraia apenas os campos: tipo, tipo_pagamento, valor, categoria e descrição.
+- Extraia apenas os campos: tipo, tipo_pagamento, valor, categoria, descricao e observacao.
 - Se não for informado o tipo de pagamento, coloque "Dinheiro".
-- Categoria e descrição devem começar com letra maiúscula.
-- Todos os campos devem estar preenchidos. Se não houver descrição, use "".
-- Sempre responda apenas com o JSON puro, sem comentários, sem explicações, sem texto adicional.`
+- Categoria e descricao devem começar com letra maiúscula.
+- Todos os campos devem estar preenchidos. Se não houver descrição, use "" (string vazia).
+- Se houver informação de parcelamento no texto (ex.: "parcelado em 6x", "em 10 vezes", "3 de 12", etc.), crie **um objeto para cada parcela** no JSON.
+  - O campo "valor" deve ser o valor da parcela (valor total dividido pelo número de parcelas, arredondado com duas casas decimais).
+  - O campo "observacao" deve indicar a parcela no formato "1/6", "2/6", ..., "6/6".
+- Se **não houver parcelamento**, o campo "observacao" deve ser uma string vazia "" ou o que achar interessante por ali.
+- Sempre responda apenas com o JSON puro, no formato de **array**, sem comentários, sem explicações e sem texto adicional.
+`
 
 
             },

@@ -1,6 +1,6 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 require('dotenv').config();
-const { calcularCompetencia } = require('./utils/data');
+const { calcularCompetencia } = require('./data');
 
 async function addToSheet(entry) {
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
