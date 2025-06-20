@@ -1,29 +1,29 @@
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-require('dotenv').config();
-const { calcularCompetencia } = require('./data');
+const { GoogleSpreadsheet } = require("google-spreadsheet");
+require("dotenv").config();
+const { calcularCompetencia } = require("./data");
 
 async function addToSheet(entry) {
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
 
     await doc.useServiceAccountAuth({
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
 
     await doc.loadInfo();
-    const sheet = doc.sheetsByTitle['Registros'];
+    const sheet = doc.sheetsByTitle["Registros"];
 
     const dataCompetencia = calcularCompetencia(entry.data, entry.tipo_pagamento);
 
     await sheet.addRow({
-        'Data': entry.data,
-        'Data Comp.': dataCompetencia,
-        'Tipo': entry.tipo,
-        'Tipo Pag.': entry.tipo_pagamento,
-        'Categoria': validarCategoria(entry.categoria),
-        'Descrição': entry.descricao,
-        'Valor': entry.valor,
-        'Observação': entry.observacao || '',
+        "Data": entry.data,
+        "Data Comp.": dataCompetencia,
+        "Tipo": entry.tipo,
+        "Tipo Pag.": entry.tipo_pagamento,
+        "Categoria": validarCategoria(entry.categoria),
+        "Descrição": entry.descricao,
+        "Valor": entry.valor,
+        "Observação": entry.observacao || "",
     });
 }
 
@@ -45,7 +45,7 @@ const categoriasValidas = [
     "Musica",
     "Compras Online",
     "Dizmo",
-    "Outros"
+    "Outros",
 ];
 
 function validarCategoria(categoria) {

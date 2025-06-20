@@ -1,7 +1,7 @@
-const axios = require('axios');
+const axios = require("axios");
 
 async function interpretMessage(text) {
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+    const response = await axios.post("https://api.openai.com/v1/chat/completions", {
         model: "gpt-3.5-turbo",
         messages: [
             {
@@ -35,29 +35,29 @@ Sua função é transformar qualquer texto em um JSON no seguinte formato:
 - A categoria e a descricao devem começar com letra maiúscula.
 - O campo descricao deve ser uma descrição curta e direta.
 - Arredonde as parcelas de forma que a soma total seja exatamente igual ao valor informado.
-- Nunca envie textos, comentários ou qualquer coisa fora do JSON. Apenas o JSON puro.`
+- Nunca envie textos, comentários ou qualquer coisa fora do JSON. Apenas o JSON puro.`,
 
 
             },
-            { role: "user", content: text }
-        ]
+            { role: "user", content: text },
+        ],
     }, {
         headers: {
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-            'Content-Type': 'application/json'
-        }
+            "Authorization": `Bearer ${ process.env.OPENAI_API_KEY }`,
+            "Content-Type": "application/json",
+        },
     });
 
     const content = response.data.choices[0].message.content.trim();
 
-    console.log('🧠 Resposta do GPT:', content);
+    console.log("🧠 Resposta do GPT:", content);
 
     try {
-    const parsed = JSON.parse(content);
-    return parsed;
-} catch (error) {
-    throw new Error(`❌ Erro ao converter para JSON. Conteúdo: ${content}`);
-}
+        const parsed = JSON.parse(content);
+        return parsed;
+    } catch (error) {
+        throw new Error(`❌ Erro ao converter para JSON. Conteúdo: ${ content }`);
+    }
 }
 
 module.exports = { interpretMessage };
