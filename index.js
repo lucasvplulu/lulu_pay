@@ -41,7 +41,11 @@ bot.on('message', async (msg) => {
         const parsedData = await interpretMessage(userInput);
         parsedData.data = extrairData(userInput);
 
-        await addToSheet(parsedData);
+        for (const item of parsedData) {
+    item.data = extrairData(userInput);
+    item.competencia = calcularCompetencia(item.data, item.tipo_pagamento);
+    await addToSheet(item);
+}
 
         bot.sendMessage(chatId, `✅ Anotado: ${parsedData.tipo} de R$${parsedData.valor} em ${parsedData.categoria} (${parsedData.descricao}) na data ${parsedData.data}`);
 
