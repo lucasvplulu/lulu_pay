@@ -31,4 +31,36 @@ function extrairData(texto) {
     return new Date().toLocaleDateString('pt-BR');
 }
 
-module.exports = { extrairData };
+function calcularCompetencia(dataStr, tipoPagamento) {
+    const [ano, mes, dia] = dataStr.split('-').map(Number);
+
+    const data = new Date(ano, mes - 1, dia);
+
+    if (tipoPagamento === 'Nubank') {
+        if (dia >= 18) {
+            return formatDate(new Date(ano, mes, 1)); // mês +1
+        } else {
+            return formatDate(new Date(ano, mes - 1, 1)); // mês atual
+        }
+    }
+
+    if (tipoPagamento === 'Santander') {
+        if (dia >= 13) {
+            return formatDate(new Date(ano, mes, 1)); // mês +1
+        } else {
+            return formatDate(new Date(ano, mes - 1, 1)); // mês atual
+        }
+    }
+
+    // Se não for cartão, usa a própria data
+    return dataStr;
+}
+
+function formatDate(date) {
+    const ano = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, '0');
+    const dia = String(date.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+
+module.exports = { extrairData, calcularCompetencia };

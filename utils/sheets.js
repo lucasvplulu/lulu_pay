@@ -1,5 +1,6 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 require('dotenv').config();
+const { calcularCompetencia } = require('./utils/data');
 
 async function addToSheet(entry) {
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
@@ -12,13 +13,47 @@ async function addToSheet(entry) {
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle['Registros'];
 
+    const dataCompetencia = calcularCompetencia(entry.data, entry.tipo_pagamento);
+
     await sheet.addRow({
-        Data: entry.data,
-        Tipo: entry.tipo,
-        Categoria: entry.categoria,
-        Descricao: entry.descricao,
-        'Valor (R$)': entry.valor,
+        'Data': entry.data,
+        'Data Comp.': dataCompetencia,
+        'Tipo': entry.tipo,
+        'Tipo Pag.': entry.tipo_pagamento,
+        'Categoria': validarCategoria(entry.categoria),
+        'Descrição': entry.descricao,
+        'Valor': entry.valor,
+        'Observação': entry.observacao || '',
     });
 }
+
+const categoriasValidas = [
+    "Moradia",
+    "Internet",
+    "Energia",
+    "Plano de celular",
+    "Carro",
+    "Caixinha Gabe",
+    "IR",
+    "Fast Food",
+    "Super Mercado",
+    "Recorrencia",
+    "Saude",
+    "Baba",
+    "Educacao",
+    "Emprestimo",
+    "Musica",
+    "Compras Online",
+    "Dizmo",
+    "Outros"
+];
+
+function validarCategoria(categoria) {
+    if (categoriasValidas.includes(categoria)) {
+        return categoria;
+    }
+    return "Outros";
+}
+
 
 module.exports = { addToSheet };

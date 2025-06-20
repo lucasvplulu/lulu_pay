@@ -12,18 +12,24 @@ Sua função é transformar qualquer texto em um JSON no seguinte formato:
 
 {
  "tipo": "receita ou despesa",
+ "tipo_pagamento": "Dinheiro, Nubank, Santander ou Pix",
  "valor": número,
  "categoria": "string",
  "descricao": "string"
 }
 
 ⚠️ Instruções obrigatórias:
+- A categoria deve obrigatoriamente ser uma dessas:
+["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"].
+- Se a categoria não estiver clara, use "Outros".
 - Não inclua data no JSON. A data será tratada no backend.
-- Extraia apenas os campos: tipo, valor, categoria e descrição.
-- Sempre responda apenas com o JSON puro, sem comentários, sem explicações, sem texto adicional.
-- Categoria e descrição começar com a primeira letra maiúscula.
-- Todos os campos devem estar preenchidos. Se não houver descrição, use uma string vazia "".
-`
+- Extraia apenas os campos: tipo, tipo_pagamento, valor, categoria e descrição.
+- Se não for informado o tipo de pagamento, coloque "Dinheiro".
+- Categoria e descrição devem começar com letra maiúscula.
+- Todos os campos devem estar preenchidos. Se não houver descrição, use "".
+- Sempre responda apenas com o JSON puro, sem comentários, sem explicações, sem texto adicional.`
+
+
             },
             { role: "user", content: text }
         ]
