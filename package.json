@@ -9,6 +9,7 @@
   "dependencies": {
     "form-data": "^4.0.3",
     "formdata-node": "^6.0.3",
+    "string-similarity": "^4.0.4",
     "undici": "^7.10.0"
   },
   "devDependencies": {
