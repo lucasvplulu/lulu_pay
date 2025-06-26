@@ -50,6 +50,14 @@ function calcularCompetencia(dataStr, tipoPagamento) {
         }
     }
 
+    if (tipoPagamento === 'Viacredi') {
+        if (dia >= 23) {
+            return formatDate(new Date(ano, mes, 1));
+        } else {
+            return formatDate(new Date(ano, mes - 1, 1));
+        }
+    }
+
     return dataStr;
 }
 

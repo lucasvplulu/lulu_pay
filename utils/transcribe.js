@@ -6,6 +6,8 @@ async function transcribeAudio(filePath) {
     const formData = new FormData();
     formData.set('file', await fileFromPath(filePath));
     formData.set('model', 'whisper-1');
+    formData.set('language', 'pt');
+    formData.set('prompt', 'Nubank Santander Viacredi débito crédito parcelado compras categoria pagamento valor despesas receitas lançamento');
 
     const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
         headers: {

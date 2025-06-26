@@ -87,11 +87,11 @@ bot.on("message", async (msg) => {
 
     try {
 
-        const regexExcluir = /\b(excluir|apagar|remover|deletar)?\s*(o\s*)?lan[cç]amento\s*(\d{1,6})\b/i;
+        const regexExcluir = /\b(excluir|apagar|remover|deletar)\b.*?(lan[cç]amento)?\s*(n[uú]mero)?\s*(\d{1,6})/i;
         const matchExcluir = texto.match(regexExcluir);
 
         if (matchExcluir) {
-            const idParaExcluir = matchExcluir[3];
+            const idParaExcluir = matchExcluir[4];
 
             const resultado = await excluirLancamentoPorId(idParaExcluir);
 

@@ -2,7 +2,8 @@ const axios = require("axios");
 
 async function interpretMessage(text) {
     const response = await axios.post("https://api.openai.com/v1/chat/completions", {
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o",
+        temperature: 0.2,
         messages: [
             {
                 role: "system",
@@ -24,8 +25,24 @@ Sua função é transformar qualquer texto em um JSON no seguinte formato:
 ⚠️ Instruções obrigatórias:
 - Sempre responda no formato de um **array JSON**, mesmo que haja apenas uma transação.
 - Nunca envie JSON fora do array. Sempre use colchetes [ ].
-- A categoria deve obrigatoriamente ser uma dessas:
-["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"].
+- A categoria deve obrigatoriamente ser uma destas (e você deve inferir a mais apropriada com base no conteúdo da mensagem):
+["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"]
+Exemplos:
+-- Aluguel, condomínio, IPTU → "Moradia"
+-- Conta Vivo, Claro, TIM, recarga celular → "Plano de celular"
+-- Conta de luz, CELESC, energia elétrica → "Energia"
+-- iFood, McDonald’s, lanches, hambúrguer → "Fast Food"
+-- Mercado, pão, arroz, carne → "Super Mercado"
+-- Médico, remédio, farmácia, Unimed → "Saude"
+-- Escola, mensalidade escolar, farda, material → "Educacao"
+-- Compra online, Shopee, Amazon, Mercado Livre → "Compras Online"
+-- Pagamento de dízimo, igreja, oferta → "Dizmo"
+-- Netflix, Spotify, Adobe, Amazon Prime → "Recorrencia"
+-- Nubank, cartão, fatura parcelada → "Emprestimo" ou "Compras Online" (dependendo do contexto)
+-- Pagamento para babá → "Baba"
+-- Caixa Gabe, guardar dinheiro → "Caixinha Gabe"
+-- IPVA, gasolina, manutenção do carro → "Carro"
+Se não for possível identificar, use "Outros".
 - Se a categoria não estiver clara, utilize "Outros".
 - Se não for informado o tipo de pagamento, utilize "Debito".
 - Não inclua data no JSON. A data será tratada no backend.
