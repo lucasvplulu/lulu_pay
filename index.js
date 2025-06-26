@@ -5,7 +5,7 @@ const fs = require("fs");
 const { transcribeAudio } = require("./utils/transcribe");
 const { interpretMessage } = require("./utils/gpt");
 const { addToSheet, excluirLancamentoPorId, getProximoIdentificador } = require("./utils/sheets");
-const { extrairData, calcularCompetencia } = require("./utils/data");
+const { extrairData, calcularCompetencia, formatDate } = require("./utils/data");
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
 console.log("🤖 Bot rodando...");
@@ -52,13 +52,15 @@ async function processarLancamento({ chatId, dados, dataInformada, tipoCartao = 
     console.log('📅 Data informada:', dataInformada);
     console.log('💳 Tipo de cartão recebido (se houver):', tipoCartao);
 
-    for (const item of dados) {
+    for (let i = 0; i < dados.length; i++) {
+        const item = dados[i];
+
         if (tipoCartao) {
             item.tipo_pagamento = tipoCartao;
         }
 
         item.data = dataInformada;
-        item.competencia = calcularCompetencia(item.data, item.tipo_pagamento);
+        item.competencia = calcularCompetencia(dataInformada, item.tipo_pagamento, i);
 
         console.log('➡️ Lançamento individual:', item);
 

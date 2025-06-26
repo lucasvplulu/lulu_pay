@@ -30,36 +30,31 @@ function extrairData(texto) {
     return formatDate(hoje);
 }
 
-function calcularCompetencia(dataStr, tipoPagamento) {
+function calcularCompetencia(dataStr, tipoPagamento, incrementoMeses = 0) {
     const [ano, mes, dia] = dataStr.split('-').map(Number);
-    const data = new Date(ano, mes - 1, dia);
+
+    // Aplica o incremento logo no início
+    const data = new Date(ano, mes - 1 + incrementoMeses, dia);
+
+    const novoAno = data.getFullYear();
+    const novoMes = data.getMonth(); // já está zero-based
+    const novoDia = data.getDate();
+
+    let competencia;
 
     if (tipoPagamento === 'Nubank') {
-        if (dia >= 18) {
-            return formatDate(new Date(ano, mes, 1)); // Próximo mês
-        } else {
-            return formatDate(new Date(ano, mes - 1, 1)); // Mês atual
-        }
+        competencia = novoDia >= 18 ? new Date(novoAno, novoMes + 1, 1) : new Date(novoAno, novoMes, 1);
+    } else if (tipoPagamento === 'Santander') {
+        competencia = novoDia >= 13 ? new Date(novoAno, novoMes + 1, 1) : new Date(novoAno, novoMes, 1);
+    } else if (tipoPagamento === 'Viacredi') {
+        competencia = novoDia >= 23 ? new Date(novoAno, novoMes + 2, 1) : new Date(novoAno, novoMes + 1, 1);
+    } else {
+        competencia = new Date(novoAno, novoMes, 1);
     }
 
-    if (tipoPagamento === 'Santander') {
-        if (dia >= 13) {
-            return formatDate(new Date(ano, mes, 1));
-        } else {
-            return formatDate(new Date(ano, mes - 1, 1));
-        }
-    }
-
-    if (tipoPagamento === 'Viacredi') {
-        if (dia >= 23) {
-            return formatDate(new Date(ano, mes, 1));
-        } else {
-            return formatDate(new Date(ano, mes - 1, 1));
-        }
-    }
-
-    return dataStr;
+    return formatDate(competencia);
 }
+
 
 function formatDate(date) {
     const ano = date.getFullYear();
@@ -68,4 +63,4 @@ function formatDate(date) {
     return `${ano}-${mes}-${dia}`;
 }
 
-module.exports = { extrairData, calcularCompetencia };
+module.exports = { extrairData, calcularCompetencia, formatDate };

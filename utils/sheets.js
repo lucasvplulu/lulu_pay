@@ -70,12 +70,10 @@ async function addToSheet(entry, identificador) {
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle["Registros"];
 
-    const dataCompetencia = calcularCompetencia(entry.data, entry.tipo_pagamento);
-
     await sheet.addRow({
         "Identificador": identificador,
         "Data": entry.data,
-        "Data Comp.": dataCompetencia,
+        "Data Comp.": entry.competencia,
         "Tipo": entry.tipo,
         "Tipo Pag.": entry.tipo_pagamento,
         "Categoria": validarCategoria(entry.categoria),

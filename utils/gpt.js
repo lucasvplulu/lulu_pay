@@ -25,45 +25,55 @@ Sua função é transformar qualquer texto em um JSON no seguinte formato:
 ⚠️ Instruções obrigatórias:
 - Sempre responda no formato de um **array JSON**, mesmo que haja apenas uma transação.
 - Nunca envie JSON fora do array. Sempre use colchetes [ ].
-- A categoria deve obrigatoriamente ser uma destas (e você deve inferir a mais apropriada com base no conteúdo da mensagem):
+- Nunca use crases, blocos markdown ou formatação como \`\`\`json. Envie apenas o JSON puro, sem qualquer caractere extra antes ou depois.
+
+📌 Categorias válidas (e exemplos):
 ["Moradia", "Internet", "Energia", "Plano de celular", "Carro", "Caixinha Gabe", "IR", "Fast Food", "Super Mercado", "Recorrencia", "Saude", "Baba", "Educacao", "Emprestimo", "Musica", "Compras Online", "Dizmo", "Outros"]
-Exemplos:
--- Aluguel, condomínio, IPTU → "Moradia"
--- Conta Vivo, Claro, TIM, recarga celular → "Plano de celular"
--- Conta de luz, CELESC, energia elétrica → "Energia"
--- iFood, McDonald’s, lanches, hambúrguer → "Fast Food"
--- Mercado, pão, arroz, carne → "Super Mercado"
--- Médico, remédio, farmácia, Unimed → "Saude"
--- Escola, mensalidade escolar, farda, material → "Educacao"
--- Compra online, Shopee, Amazon, Mercado Livre → "Compras Online"
--- Pagamento de dízimo, igreja, oferta → "Dizmo"
--- Netflix, Spotify, Adobe, Amazon Prime → "Recorrencia"
--- Nubank, cartão, fatura parcelada → "Emprestimo" ou "Compras Online" (dependendo do contexto)
--- Pagamento para babá → "Baba"
--- Caixa Gabe, guardar dinheiro → "Caixinha Gabe"
--- IPVA, gasolina, manutenção do carro → "Carro"
-Se não for possível identificar, use "Outros".
-- Se a categoria não estiver clara, utilize "Outros".
-- Se não for informado o tipo de pagamento, utilize "Debito".
+
+Exemplos para inferência correta:
+- Aluguel, condomínio, IPTU → "Moradia"
+- Conta Vivo, Claro, TIM, recarga celular → "Plano de celular"
+- Conta de luz, CELESC, energia elétrica → "Energia"
+- iFood, McDonald’s, hambúrguer, lanche → "Fast Food"
+- Mercado, pão, arroz, carne → "Super Mercado"
+- Médico, farmácia, remédio, Unimed → "Saude"
+- Escola, mensalidade escolar, farda → "Educacao"
+- Shopee, Amazon, Mercado Livre → "Compras Online"
+- Netflix, Spotify, Amazon Prime → "Recorrencia"
+- Pagamento de dízimo, igreja → "Dizmo"
+- Caixa Gabe, guardar dinheiro → "Caixinha Gabe"
+- IPVA, gasolina, manutenção → "Carro"
+- Babá, diarista → "Baba"
+
+🔍 Mesmo que o texto não diga exatamente a palavra da categoria, você deve inferir corretamente com base em sinônimos, marcas ou contexto.
+
+- Se a categoria não for reconhecível, utilize "Outros".
+- Se o tipo de pagamento não for informado, utilize "Debito".
 - Não inclua data no JSON. A data será tratada no backend.
 - Extraia apenas os campos: tipo, tipo_pagamento, valor, categoria, descricao e observacao.
 
 🚨 Sobre parcelamento:
-- Se a mensagem **deixar claro a quantidade de parcelas (como "3 vezes", "em 5 parcelas", "parcelado em 4x")**, você deve gerar uma linha para cada parcela.
-- A chave \`"observacao"\` deve indicar a parcela no formato \`"N/X"\`, exemplo \`"2/5"\`.
-- Se a mensagem disser apenas que foi "parcelado", "no cartão", "dividido" ou termos semelhantes, **mas não informar claramente a quantidade de parcelas**, considere que é **1 única parcela** e a observacao deve ser igual a \`""\`.
+- Se a mensagem indicar claramente o número de parcelas (ex: "3 vezes", "parcelado em 5x"), gere uma linha para cada parcela.
+- A chave \`"observacao"\` deve indicar a parcela no formato \`"N/X"\`, como \`"2/5"\`.
+- Se mencionar "parcelado" ou "no cartão" sem informar a quantidade de parcelas, considere como **1 parcela** e deixe \`"observacao": ""\`.
 
-💰 Sobre cálculo de parcelas:
-- Distribua o valor igualmente entre as parcelas.
-- Se houver diferença nos centavos, **ajuste na última parcela para que a soma total seja exatamente igual ao valor informado.**
-- Nunca arredonde as parcelas de forma que falte ou sobre dinheiro no total.
+💰 Parcelas:
+- Divida o valor igualmente entre as parcelas.
+- Se sobrar ou faltar centavos, ajuste apenas na última parcela para garantir que a soma final seja correta.
 
 ✅ Regras de formatação:
 - A categoria e a descricao devem começar com letra maiúscula.
-- A descricao deve ser uma descrição curta e direta.
+- A descricao deve ser uma frase curta e direta.
 
-🚫 Importante:
-- Nunca envie textos, comentários ou qualquer coisa fora do JSON. Apenas o JSON puro.`,
+🚫 Exclusão de lançamentos:
+Se a mensagem indicar claramente um pedido para excluir/apagar/remover um lançamento (ex: "excluir lançamento 123"), responda com:
+
+[
+  {
+    "excluir": true,
+    "id": 123
+  }
+]`,
 
 
             },
@@ -81,8 +91,8 @@ Se não for possível identificar, use "Outros".
     console.log("🧠 Resposta do GPT:", content);
 
     try {
-        const parsed = JSON.parse(content);
-        return parsed;
+        const jsonSemCrase = content.replace(/```json|```/g, '').trim();
+        return JSON.parse(jsonSemCrase);
     } catch (error) {
         throw new Error(`❌ Erro ao converter para JSON. Conteúdo: ${ content }`);
     }
