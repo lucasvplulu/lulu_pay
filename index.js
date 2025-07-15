@@ -167,7 +167,7 @@ bot.on('callback_query', async (callbackQuery) => {
     const messageId = callbackQuery.message.message_id;
     const data = callbackQuery.data;
 
-    if (data.startsWith('cartao_')) {
+    if (data.startsWith('cartao_') || data.startsWith('debito')) {
         const tipoCartao = data.replace('cartao_', '');
         const estado = estadosPendentes[chatId];
 
