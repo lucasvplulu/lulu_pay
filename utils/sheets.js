@@ -82,7 +82,7 @@ async function addToSheet(entry, identificador) {
         "Observação": entry.observacao || "",
     });
 
-    console.log(`✅ Registro adicionado com ID ${identificador}`);
+    console.log(`✅ Registro adicionado com ID: ${identificador}`);
 }
 
 
